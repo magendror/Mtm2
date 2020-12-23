@@ -69,15 +69,54 @@ def fileCorrect(orig_file_path: str, filtered_file_path: str):
 #   in_file_path: The path to the unfiltered subscription file
 #   out_file_path: file path of the output file
 def printYoungestStudents(in_file_path: str, out_file_path: str, k: int) -> int:
-    pass
+    if(k<=0):
+        return -1
+    fileCorrect(in_file_path,"temp_file_Youngest")
+    corrected_file = open("temp_file_Youngest", "r")
+    user_list = corrected_file.readlines()
+    if(k>len(user_list)):
+        corrected_file.close
+        printYoungestStudentsHelper(user_list,out_file_path,len(user_list))
+    else:
+        corrected_file.close
+        printYoungestStudentsHelper(user_list,out_file_path,k)
     #TODO
     
+def printYoungestStudentsHelper(user_list, out_file_path: str, k: int) -> int:
+    for i in user_list:
+        user_list[i]=user_list[i].split(', ')
+    write_to_file = open("out_file_path", "w")
+    hist = len(user_list)*[0]
+    for i in range(k):
+        iterator = 0
+        minimum = [user_list[i][2] for i in hist if hist[i]==0]
+        for j,current_user in enumerate(user_list):
+            if(current_user[2]<minimum[0] and hist[j]==0):
+                iterator = j
+                minimum = current_user[2]
+        hist[iterator]=1
+        write_to_file.write(user_list[iterator][0])
+    write_to_file.close
+    #TODO
     
 # Calculates the avg age for a given semester
 #   in_file_path: The path to the unfiltered subscription file
 #   retuns the avg, else error codes defined.
 def correctAgeAvg(in_file_path: str, semester: int) -> float:
-    pass
+    if(semester<=0):
+        return -1
+    fileCorrect(in_file_path,"temp_file_Youngest")
+    corrected_file = open("temp_file_Youngest", "r")
+    user_list = corrected_file.readlines()
+    for i in user_list:
+        user_list[i]=user_list[i].split(', ')
+    students_in_semester=0
+    age_in_semester=0
+    for student in user_list[i]:
+        if (student[4]==semester):
+            age_in_semester+=student[2]
+            students_in_semester+=1
+    return age_in_semester/students_in_semester
     #TODO
     
 
