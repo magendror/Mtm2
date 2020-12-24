@@ -56,13 +56,6 @@ def fileCorrect(orig_file_path: str, filtered_file_path: str):
         output_file.write(string)
     input_file.close
     output_file.close
-
-
-
-
-
-    
-    
     
 # Writes the names of the K youngest students which subscribed 
 # to the event correctly.
