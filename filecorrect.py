@@ -50,4 +50,4 @@ def fileCorrect(orig_file_path: str, filtered_file_path: str):
     input_file.close
     output_file.close
 
-fileCorrect(r'C:\\technion\\matam\\mtm2\\Mtm2\\input_file.txt',r'C:\\technion\\matam\\mtm2\\Mtm2\\output_file.txt')
+fileCorrect(r'C:\\technion\\mtm\\Mtm2\\input_file.txt',r'C:\\technion\\mtm\\Mtm2\\output_file.txt')
