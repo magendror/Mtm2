@@ -60,6 +60,11 @@ def stringIsValid(string_to_check):
 def sortingFunc(list):
     return int(list[0])
 
+def duplicationTest(list_to_check):
+    id_list=[list1[0] for list1 in list_to_check]
+    id_bool_list=[id_list.index(id_list[i])==i for i in range(len(id_list))]
+    return [list_to_check[i] for i in range(len(list_to_check)) if id_bool_list[i] ]
+
 #### PART 1 ####
 # Filters a file of students' subscription to specific event:
 #   orig_file_path: The path to the unfiltered subscription file
@@ -80,8 +85,6 @@ def fileCorrect(orig_file_path: str, filtered_file_path: str):
         output_file.write(string + "\n")
     input_file.close()
     output_file.close()
-
-# Writes the names of the K youngest students which subscribed
 # to the event correctly.
 #   in_file_path: The path to the unfiltered subscription file
 #   out_file_path: file path of the output file

@@ -28,6 +28,14 @@ def semesterIsValid(semester):
     semester=semester.replace("\n","")
     return semester.isdigit() and  int(semester)>=1
     
+def duplicationTest(list_to_check):
+    id_list=[list1[0] for list1 in list_to_check]
+    id_bool_list=[id_list.index(id_list[i])==i for i in range(len(id_list))]
+    return [list_to_check[i] for i in range(len(list_to_check)) if id_bool_list[i] ]
+
+
+
+
 
 def nameIsValid(name):
     return name.replace(" ","").isalpha()
@@ -42,12 +50,14 @@ def sortingFunc(list):
 def fileCorrect(orig_file_path: str, filtered_file_path: str):
     input_file=open(orig_file_path,'r')
     list_of_lines=[makingStringValid(line) for line in input_file if stringIsValid(line)]
+    list_of_lines=duplicationTest(list_of_lines)
     list_of_lines.sort(key=sortingFunc)
-    list_of_strings=[(', ').join(list1) for list1 in list_of_lines] 
+    list_of_strings=[(', ').join(list1) for list1 in list_of_lines]
     output_file=open(filtered_file_path,'w')
-    for string in list_of_strings:
+    for string in set(list_of_strings):
         output_file.write(string)
     input_file.close
     output_file.close
 
-fileCorrect(r'C:\\technion\\matam\\mtm2\\Mtm2\\input_file.txt',r'C:\\technion\\matam\\mtm2\\Mtm2\\output_file.txt')
+fileCorrect(r'C:\\technion\\mtm\\Mtm2\\input_file.txt',r'C:\\technion\\mtm\\Mtm2\\output_file.txt')
+
