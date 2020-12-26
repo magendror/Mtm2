@@ -42,6 +42,11 @@ def stringIsValid(string_to_check):
 def sortingFunc(list):
     return int(list[0])
 
+def duplicationTest(list_to_check):
+    id_list=[list1[0] for list1 in list_to_check]
+    id_bool_list=[id_list.index(id_list[i])==i for i in range(len(id_list))]
+    return [list_to_check[i] for i in range(len(list_to_check)) if id_bool_list[i] ]
+
 #### PART 1 ####
 # Filters a file of students' subscription to specific event:
 #   orig_file_path: The path to the unfiltered subscription file
@@ -49,8 +54,9 @@ def sortingFunc(list):
 def fileCorrect(orig_file_path: str, filtered_file_path: str):
     input_file=open(orig_file_path,'r')
     list_of_lines=[makingStringValid(line) for line in input_file if stringIsValid(line)]
+    list_of_lines=duplicationTest(list_of_lines)
     list_of_lines.sort(key=sortingFunc)
-    list_of_strings=[(', ').join(list1) for list1 in list_of_lines] 
+    list_of_strings=[(', ').join(list1) for list1 in list_of_lines]
     output_file=open(filtered_file_path,'w')
     for string in set(list_of_strings):
         output_file.write(string)
