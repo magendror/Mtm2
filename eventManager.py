@@ -1,5 +1,5 @@
 #### IMPORTS ####
-#import event_manager as EM
+import event_manager as EM
 
 
 def idCorrect(user_id):
@@ -161,8 +161,6 @@ def testPrintEventsList(file_path: str):
 # feel free to add more tests and change that section.
 # sys.argv - list of the arguments passed to the python script
 if __name__ == "__main__":
-    """x=printYoungestStudents("./data.txt","./output.txt")
-    exit()"""
     import sys
     if len(sys.argv) > 1:
         testPrintEventsList(sys.argv[1])
