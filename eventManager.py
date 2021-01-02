@@ -120,6 +120,7 @@ def correctAgeAvg(in_file_path: str, semester: int) -> float:
     user_list = corrected_file.readlines()
     user_list = [e.replace("\n","") for e in user_list]
     user_list = [e.split(', ') for e in user_list]
+    corrected_file.close()
     students_in_semester = 0
     age_in_semester = 0
     for student in user_list:
@@ -139,9 +140,24 @@ def correctAgeAvg(in_file_path: str, semester: int) -> float:
 #   events: list of dictionaries
 #   file_path: file path of the output file
 # em, event_names: list, event_id_list: list, day: int, month: int, year: int):
+
+def dateSort(list_dates):
+    minimum = list_dates[0]
+    for date in list_dates:
+        if(EM.dateCompare(minimum,date)>0):
+            minimum = date
+    return minimum
+
 def printEventsList(events: list, file_path: str):
-    pass
-    # TODO
+    list_dates = [e["date"] for e in events]
+    lowest_date = dateSort(list_dates)
+    em_events = EM.createEventManager(lowest_date)
+    for e in events:
+       EM.emAddEventByDate(em_events,e["name"],e["date"],e["id"])
+    EM.emPrintAllEvents(em_events,file_path)
+    """for date in list_dates:
+        EM.dateDestroy(date)"""
+    return em_events
 
 
 def testPrintEventsList(file_path: str):
@@ -149,7 +165,7 @@ def testPrintEventsList(file_path: str):
                     {"name": "annual Rock & Metal party", "id": 2,
                         "date":  EM.dateCreate(21, 4, 2021)},
                     {"name": "Improv", "id": 3,
-                        "date": EM.dateCreate(13, 3, 2021)},
+                        "date": EM.dateCreate(13, 3, 2019)},
                     {"name": "Student Festival", "id": 4, "date": EM.dateCreate(13, 5, 2021)}, ]
     em = printEventsList(events_lists, file_path)
     for event in events_lists:
@@ -161,6 +177,6 @@ def testPrintEventsList(file_path: str):
 # feel free to add more tests and change that section.
 # sys.argv - list of the arguments passed to the python script
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1:
-        testPrintEventsList(sys.argv[1])
+    #import sys
+    #if len(sys.argv) > 1:
+        testPrintEventsList("./test11.txt")
