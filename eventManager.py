@@ -89,15 +89,23 @@ def fileCorrect(orig_file_path: str, filtered_file_path: str):
 #   in_file_path: The path to the unfiltered subscription file
 #   out_file_path: file path of the output file
 
+def correctionfunc(in_file_path: str):
+    input_file = open(in_file_path, 'r')
+    list_of_lines = [makingStringValid(line)
+                     for line in input_file if stringIsValid(line)]
+    temp_dictionary = dict()
+    for user_string in list_of_lines:
+        temp_dictionary[getID(user_string)]=user_string
+    list_of_lines = list(temp_dictionary.values())
+    list_of_lines.sort(key=getID)
+    return list_of_lines
+
 
 def printYoungestStudents(in_file_path: str, out_file_path: str, k: int) -> int:
     if(k <= 0):
         return -1
-    youngest_fname = in_file_path + "_youngest.tmp"
-    fileCorrect(in_file_path, youngest_fname)
-    corrected_file = open(youngest_fname, "r")
-    user_list = corrected_file.readlines()
-    user_list = [i.split(', ') for i in user_list]
+    user_list = correctionfunc(in_file_path)
+    user_list = [line.split(", ") for line in user_list]
     user_list.sort(key=lambda x: (int(x[2]), int(x[0])))
     write_to_file = open(out_file_path, "w")
     write_list = user_list[:k]
@@ -114,13 +122,8 @@ def printYoungestStudents(in_file_path: str, out_file_path: str, k: int) -> int:
 def correctAgeAvg(in_file_path: str, semester: int) -> float:
     if(semester <= 0):
         return -1
-    ageavg_fname = in_file_path + "_youngest.tmp"
-    fileCorrect(in_file_path, ageavg_fname)
-    corrected_file = open(ageavg_fname, "r")
-    user_list = corrected_file.readlines()
-    user_list = [e.replace("\n","") for e in user_list]
-    user_list = [e.split(', ') for e in user_list]
-    corrected_file.close()
+    user_list = correctionfunc(in_file_path)
+    user_list = [line.split(", ") for line in user_list]
     students_in_semester = 0
     age_in_semester = 0
     for student in user_list:
@@ -155,8 +158,6 @@ def printEventsList(events: list, file_path: str):
     for e in events:
        EM.emAddEventByDate(em_events,e["name"],e["date"],e["id"])
     EM.emPrintAllEvents(em_events,file_path)
-    """for date in list_dates:
-        EM.dateDestroy(date)"""
     return em_events
 
 
@@ -177,6 +178,10 @@ def testPrintEventsList(file_path: str):
 # feel free to add more tests and change that section.
 # sys.argv - list of the arguments passed to the python script
 if __name__ == "__main__":
-    #import sys
-    #if len(sys.argv) > 1:
-        testPrintEventsList("./test11.txt")
+      
+    import sys
+    if len(sys.argv) > 1:
+        testPrintEventsList(sys.argv[1])
+    
+    num=printYoungestStudents("./data.txt","./out2",3)
+    print(num)
